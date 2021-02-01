@@ -1,0 +1,35 @@
+﻿.ZenithListBoxRow
+{
+	height: 25px;
+}
+
+.ZenithListBoxRow div
+{
+	height: 25px;
+	background-color: lightblue;
+}
+
+#baseElement td:hover 
+{
+    background-color: aquamarine;
+}
+
+.ZenithListBoxLabel_Selected
+{
+	background-color: palevioletred;
+}
+
+.ZenithListBoxLabel_Unselected
+{
+	background-color: #E6E8EA;
+}
+
+.ZenithListBoxLabel_Tagged
+{
+	background-color: royalblue;
+}
+
+.ZenithListBoxTable
+{
+	background-color: #E6E8EA;
+}

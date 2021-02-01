@@ -1,0 +1,71 @@
+﻿.ZenithGrid_PagingFooter
+{
+    text-align: right;
+    padding-bottom: 6px;
+    padding-top: 6px;
+    background-color: #F0F0F0;
+}
+
+.ZenithGrid_PagingControls
+{
+    border: 1px solid #808080;
+    padding: 0 4px 0 4px;
+    margin-left: 8px;
+    text-align: center;
+    cursor: pointer;
+    background-color: white;
+}
+
+.ZenithGrid_PagingControlsDisabled
+{
+    border: 1px solid #808080;
+    padding: 0 4px 0 4px;
+    margin-left: 8px;
+    text-align: center;
+}
+
+.ZenithGrid_PagingControls:hover 
+{
+    background-color: lightgray;
+}
+
+.ZenithGrid_UnselectedRow
+{
+    border: solid 1px #525252; 
+}
+
+.ZenithGrid_SelectedRow
+{
+    border: solid 1px #525252; 
+}
+
+.ZenithGrid_AltRow
+{
+    border: solid 1px #525252; 
+}
+
+.ZenithGrid_GroupRow
+{
+    border: solid 1px #525252; 
+}
+
+.ZenithGridTable
+{
+    background-color: #fff; 
+    border-collapse:collapse;
+}
+
+.ZenithGridTable td
+{
+    padding: 2px;
+    border: solid 1px #c1c1c1;
+    color: Black;
+    font-size: 1.0em;
+}
+
+.ZenithGrid_HeaderRow th
+{
+    background-color: lightgray;
+    border-left: solid 1px #525252;
+    font-size: 1.1em;
+}

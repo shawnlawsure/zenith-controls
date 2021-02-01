@@ -1,0 +1,13 @@
+﻿All
+----------
+for /f "delims=|" %%f in ('dir /b $(ProjectDir)*.ts') do tsc $(ProjectDir)%%f
+
+copy $(ProjectDir)*.js $(ProjectDir)\Test\
+
+Single file
+-----------
+tsc $(ProjectDir)ZenithGrid.ts
+
+copy $(ProjectDir)ZenithControlBase.js $(ProjectDir)\Test\
+copy $(ProjectDir)ZenithGrid.js $(ProjectDir)\Test\
+

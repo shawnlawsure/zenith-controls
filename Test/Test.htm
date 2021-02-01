@@ -1,0 +1,537 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+
+    <link type="text/css" href="Grid.css" rel="stylesheet" />
+
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.2.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/jquery-ajaxtransport-xdomainrequest/1.0.0/jquery.xdomainrequest.min.js'></script>
+
+    <script src="ZenithControlBase.js" type="text/javascript"></script>
+    <script src="ZenithList.js" type="text/javascript"></script>
+    <script src="ZenithListBox.js" type="text/javascript"></script>
+    <script src="ZenithLightboxForm.js" type="text/javascript"></script>
+    <script src="ZenithGrid.js" type="text/javascript"></script>
+    <script src="ZenithTextBox.js" type="text/javascript"></script>
+    <script src="ZenithDropDown.js" type="text/javascript"></script>
+    
+    <style type="text/css">
+    .Zenith_lightbox_wrapper {
+        background-color: #cccccc;
+        background-color: rgba(204,204,204,.5);
+    }
+
+    .Zenith_lightbox_inner {
+        background-color: rgb(248,248,248);
+        -ms-border-radius: 4px;
+        border-radius: 4px;
+        border-color: rgb(224, 227, 229);
+        border-top-color: rgb(35, 111, 189);
+        border-width: 1px;
+        border-top-width: 3px;
+        border-style: solid;
+        padding: .5em;
+    }
+    </style>
+    
+    <script type="text/javascript">
+
+        var textBox = null;
+
+        function OnLoad()
+        {
+            testDropDown();
+            //testListBox();
+            //testCheckBoxList();
+            //testCalendar();
+            //testGrid();
+            //testGrid2();
+            //testTextBox();
+            //testDates();
+            //testLightbox();
+        }
+
+        function testLightbox() {
+            var box = new Zenith.LightboxForm();
+            box.Fields = [
+                {
+                    label: 'testlabel',
+                    //name: 'testname',
+                    value: 42
+                },
+                {
+                    label:'selected',
+                    options: ['foo', 'bar', 'baz'],
+                    value:'bar'
+                }
+            ];
+            box.OnSubmit = function(data) {
+                console.log(data);
+                alert('Submitted: ' + data['selected']);
+            };
+            box.OnCancel = function (data, extra) { alert('Canceled: ' + data['testlabel']); };
+            box.Title = 'My Title';
+            box.Build();
+            box.Show();
+            document.body.querySelector('#testPopup').onclick = function() {
+                box.Show();
+            }
+        }
+
+        function testDates()
+        {
+            //var date = new Date();
+            //alert(Zenith.DateHelper.addBusDays(date, 5));
+
+            var startDate = new Date();
+            var endDate = new Date(2014, 2, 25);
+            alert(Zenith.DateHelper.businessDaysBetweenDates(startDate, endDate));
+        }
+
+        function testTextBox()
+        {
+            textBox = new Zenith.TextBox('baseElement');
+            //textBox.Disabled = true;
+            textBox.type = Zenith.TextBox.Type.Text;
+            //textBox.DecimalPlaces = 1;
+            textBox.Text = "Hello";
+            //textBox.NumValue = 12;
+            textBox.MaxLength = 75;
+
+            textBox.addZenithEventListener(Zenith.ZenithEvent.EventType.Changed, function (value, text) { });
+            //textBox.addZenithEventListener(Zenith.ZenithEvent.EventType.Close, function () { alert(this.NumValue); });
+
+            textBox.Build();
+        }
+
+        function testDropDown()
+        {
+            var dropDown = new Zenith.DropDown('baseElement');
+            dropDown.OutputElementId = 'output2';
+
+            //dropDown.AutoSelectDefaultValue = true;
+            dropDown.addZenithEventListener(Zenith.ZenithEvent.EventType.Selected, function (value, text)
+            {
+                //alert(dropDown.SelectedValue);
+                var element = document.getElementById('output2');
+                alert(element.value);
+            });
+            //dropDown.addZenithEventListener(Zenith.ZenithEvent.EventType.Close, function () { });
+
+            dropDown.AddItem(0, "");
+            dropDown.AddItem(1, "Blue");
+            dropDown.AddItem(2, "Yellow");
+            /*dropDown.AddItem(3, "Red");
+            dropDown.AddItem(4, "Green");
+            dropDown.AddItem(5, "Turqoise");
+            dropDown.AddItem(6, "Orange");
+            dropDown.AddItem(7, "Black");
+            dropDown.AddItem(8, "White");*/
+
+            dropDown.width = 200;
+            dropDown.border = false;
+            dropDown.Build();
+
+            //dropDown.SetSelected(6);
+        }
+
+        function testListBox()
+        {
+            var lstList = new Zenith.ListBox('baseElement');
+
+            //lstList.NumColumns = 2;
+            //lstList.ColumnSpace = 15;
+            //lstList.PopUpControlId = 'testPopup';
+            //lstList.PopUpPosition = 'right';
+            //lstList.PopUpDirection = 'down';
+            //lstList.OutputElementId = 'output1';
+            lstList.MaximumHeight = 500;
+            
+            lstList.addZenithEventListener(Zenith.ZenithEvent.EventType.Selected, function (value, text)
+            {
+                //alert(lstList.SelectedText);
+            });
+            //lstList.addZenithEventListener(Zenith.ZenithEvent.EventType.Close, function () { });
+
+            lstList.AddItem(1, "Blue");
+            lstList.AddItem(2, "Yellow");
+            lstList.AddItem(3, "Red");
+            /*lstList.AddItem(4, "Green");
+            lstList.AddItem(5, "Turqoise");
+            lstList.AddItem(6, "Orange");
+            lstList.AddItem(7, "Black");
+            lstList.AddItem(8, "White");
+            lstList.AddItem(9, "Aqua");
+            lstList.AddItem(10, "Gray");
+            lstList.AddItem(11, "Purple");*/
+
+            /*var testData = [
+                { "Value": 1, "Text": "Blue" },
+                { "Value": 2, "Text": "Yellow" },
+                { "Value": 3, "Text": "Red" },
+                { "Value": 4, "Text": "Green" },
+                { "Value": 5, "Text": "Turqoise" },
+                { "Value": 6, "Text": "Orange" },
+                { "Value": 7, "Text": "Black" },
+                { "Value": 8, "Text": "White" },
+                { "Value": 9, "Text": "Aqua" },
+                { "Value": 10, "Text": "Gray" },
+                { "Value": 11, "Text": "Purple" }
+            ];
+            lstList.AddJSONData(testData); */
+
+            /*var testData = [[1, 'Blue'],
+                                [2, 'Yellow'],
+                                [3, 'Red'],
+                                [4, 'Green'],
+                                [5, 'Turqoise'],
+                                [6, 'Orange'],
+                                [7, 'Black'],
+                                [8, 'White'],
+                                [9, 'Aqua'],
+                                [10, 'Yellow'],
+                                [11, 'Gray'],
+                                [12, 'Purple']];
+            lstList.AddArrayData(testData); */
+
+            lstList.Build();
+
+            //lstList.Tag([3, 5, 9]);
+        }
+
+        function testCheckBoxList()
+        {
+            var cbList = new Zenith.CheckBoxList('baseElement');
+
+            cbList.NumColumns = 3;
+            cbList.ColumnSpace = 15;
+            cbList.MaximumHeight = 100;
+            cbList.PopUpControlId = 'testPopup';
+            cbList.PopUpPosition = 'right';
+            cbList.PopUpDirection = 'down';
+            cbList.OutputElementId = 'output1';
+
+            //cbList.addZenithEventListener(Zenith.ZenithEvent.EventType.Selected, function (value, text, checked) { alert(text + ' ' + (checked ? 'selected' : 'unselected')); });
+            //cbList.addZenithEventListener(Zenith.ZenithEvent.EventType.Close, function () { alert(cbList.SelectedNames().join('; ')); });
+
+            cbList.AddItem(1, "Blue");
+            cbList.AddItem(2, "Yellow");
+            cbList.AddItem(3, "Red");
+            cbList.AddItem(4, "Green");
+            cbList.AddItem(5, "Turqoise");
+            cbList.AddItem(6, "Orange");
+            cbList.AddItem(7, "Black");
+            cbList.AddItem(8, "White");
+            cbList.AddItem(9, "Aqua");
+            cbList.AddItem(10, "Gray");
+            cbList.AddItem(11, "Purple");
+
+            /*var testData = [
+                { "Value": 1, "Text": "Blue" },
+                { "Value": 2, "Text": "Yellow" },
+                { "Value": 3, "Text": "Red" },
+                { "Value": 4, "Text": "Green" },
+                { "Value": 5, "Text": "Turqoise" },
+                { "Value": 6, "Text": "Orange" },
+                { "Value": 7, "Text": "Black" },
+                { "Value": 8, "Text": "White" },
+                { "Value": 9, "Text": "Aqua" },
+                { "Value": 10, "Text": "Gray" },
+                { "Value": 11, "Text": "Purple" }
+            ];
+            cbList.AddJSONData(testData);
+
+            var testData = [[1, 'Blue'],
+                                [2, 'Yellow'],
+                                [3, 'Red'],
+                                [4, 'Green'],
+                                [5, 'Turqoise'],
+                                [6, 'Orange'],
+                                [7, 'Black'],
+                                [8, 'White'],
+                                [9, 'Aqua'],
+                                [10, 'Yellow'],
+                                [11, 'Gray'],
+                                [12, 'Purple']]; 
+            cbList.AddArrayData(testData);*/
+
+            cbList.Build();
+
+            //cbList.ParentElement.style.width = "600px";
+        }
+
+        function testCalendar()
+        {
+            var calendar = new Zenith.Calendar('baseElement');
+
+            calendar.StartDate = new Date(2012, 11, 01);
+            //calendar.PopUpControlId = 'testPopup';
+            //calendar.PopUpPosition = 'right';
+            //calendar.PopUpDirection = 'down';
+            calendar.OutputElementId = 'output1';
+            calendar.DisplayOutputElementId = 'output2';
+            calendar.DisplayOutputFormat = 1;
+
+            calendar.addZenithEventListener(Zenith.ZenithEvent.EventType.Selected, function (value, text) { alert(text); });
+            calendar.addZenithEventListener(Zenith.ZenithEvent.EventType.Close, function () {  });
+
+            calendar.Build();
+        }
+
+        function testGrid()
+        {
+            // This commented out code is an example of getting a JSON object from a REST service and passing that in as the data source for the Grid.
+            /*jQuery.support.cors = true;
+            $.getJSON("http://localhost/TestService/TestService/Cars", {}, function (data)
+            {
+            myGrid = new Grid('myGrid', data);
+            });*/
+
+            // Use the following JSON object as the data source.
+            var testData = [{ "AccountId": "AMJ6N0000122", "ShowName": "2015 - Seafood Expo Global", "AssignedSpace": 0.0, "OrderedSpace": 256.0, "AssignedBooths": "", "OrderCount": 1, "SalesRep": "Marla Karvonides", "CurrentStatus": "Active", "ManualOverride": "No", "ActiveDate": "2014-07-18T09:34:19.973", "ContractDate": "2014-07-18T08:41:20.2", "VerbalDate": null, "CancelDate": null, "ExhibitorType": "", "LeadExhibitors": "", "CoExhibitors": "", "ManualOverrideUser": "", "ManualOverrideDate": null, "LineItemID": "MTS000000267", "CreatedDate": "2014-04-15T00:00:00" }, { "AccountId": "AMJ6N0000122", "ShowName": "2014 - Seafood Expo Global", "AssignedSpace": 256.0, "OrderedSpace": 256.0, "AssignedBooths": "7-1717", "OrderCount": 1, "SalesRep": "Marla Karvonides", "CurrentStatus": "Active", "ManualOverride": "No", "ActiveDate": "2013-07-29T09:11:46.46", "ContractDate": "2013-07-26T14:45:16.413", "VerbalDate": null, "CancelDate": null, "ExhibitorType": "P-Lead", "LeadExhibitors": "", "CoExhibitors": "Gelpeixe-Alimentos Congelados Sa,  Nigel - Congeladora Jose Nicolau LDA,  Riberalves - Comercio e Industria de Produtos Alimentares SA,  Docapesca-Portos e Lotas SA,  Coelho & Dias S.A.,  Rui Costa e Sousa & Irmao SA,  Lotacor - Servico de Lotas dos Acores SA,  Brasmar III - Comercio de Productos Alimentares, S.A.,  Filmar - Comercio de Productos Congelados, Lda,  Soguima - Comercio e Industria Alimentar, S.A,  Ilhapeixe - Sociedade de Peixe da Ilha, Lda,  Largispot - Productos Alimentares, Lda,  Briosa - Conservas de Pescados, Lda.,  Grupo FRIP Sociedad de Pesca Miradouro, S.A.; Fricopesca - Refrigeracao de Aveiro, S.A.; Frina - Frigorificos Nacionals, S.A.),  L. Fish, Unipessoal, Lda.,  Testa & Cunhas, S.A.", "ManualOverrideUser": "", "ManualOverrideDate": null, "LineItemID": "MTS000000207", "CreatedDate": "2013-04-08T00:00:00" }, { "AccountId": "AMJ6N0000122", "ShowName": "2013 - European Seafood Exposition", "AssignedSpace": 256.0, "OrderedSpace": 256.0, "AssignedBooths": "7-1717", "OrderCount": 1, "SalesRep": "Marla Karvonides", "CurrentStatus": "Active", "ManualOverride": "No", "ActiveDate": "2012-07-27T11:02:38.58", "ContractDate": "2012-07-23T11:04:03.303", "VerbalDate": null, "CancelDate": null, "ExhibitorType": "P-Lead", "LeadExhibitors": "", "CoExhibitors": "Gelpeixe-Alimentos Congelados Sa,  Nigel - Congeladora Jose Nicolau LDA,  Grupo Miradouro - Friopesca,  Riberalves - Comercio e Industria de Produtos Alimentares SA,  Docapesca-Portos e Lotas SA,  Coelho & Dias S.A.,  GELPINHOS - Peixe congelado Lda,  Rui Costa e Sousa & Irmao SA,  Brasmar III - Comercio de Productos Alimentares, S.A.,  Filmar - Comercio de Productos Congelados, Lda,  Soguima - Comercio e Industria Alimentar, S.A,  Ilhapeixe - Sociedade de Peixe da Ilha, Lda,  Briosa - Com\u00e9rcio de Peixe, S.A.,  Sulmare- Empresa de Pesca, Lda,  Largispot - Productos Alimentares, Lda", "ManualOverrideUser": "", "ManualOverrideDate": null, "LineItemID": "MTS000000166", "CreatedDate": "2012-04-30T00:00:00" }, { "AccountId": "AMJ6N0000122", "ShowName": "2012 - European Seafood Exposition", "AssignedSpace": 256.0, "OrderedSpace": 256.0, "AssignedBooths": "7-1701", "OrderCount": 1, "SalesRep": "Nicole Dunbar", "CurrentStatus": "Active", "ManualOverride": "No", "ActiveDate": "2011-07-22T10:25:38.827", "ContractDate": "2011-07-18T14:10:22.093", "VerbalDate": null, "CancelDate": null, "ExhibitorType": "P-Lead", "LeadExhibitors": "", "CoExhibitors": "Gelpeixe-Alimentos Congelados Sa,  Nigel - Congeladora Jose Nicolau LDA,  Riberalves - Comercio e Industria de Produtos Alimentares SA,  Coelho & Dias S.A.,  GELPINHOS - Peixe congelado Lda,  Rui Costa e Sousa & Irmao SA,  Pescaviva - Comercio e Industria Pescada SA,  Friopesca - Refrigera\u00e7ao de Averio, S.A.,  Brasmar III - Comercio de Productos Alimentares, S.A.,  Filmar - Comercio de Productos Congelados, Lda,  Soguima - Comercio e Industria Alimentar, S.A,  Gialmar - Produtos Alimentares, S.A.,  Alascod -  Com\u00e9rcio de Peixe, S.A.,  Briosa - Com\u00e9rcio de Peixe, S.A.,  Companhia De Pescarias Do Algarve,  Frijobel - Ind\u00fastria e Com\u00e9rcio Alimentar, S.A.", "ManualOverrideUser": "", "ManualOverrideDate": null, "LineItemID": "MTS000000110", "CreatedDate": "2011-01-05T00:00:00" }, { "AccountId": "AMJ6N0000122", "ShowName": "2011 - European Seafood Exposition", "AssignedSpace": 256.0, "OrderedSpace": 256.0, "AssignedBooths": "7-1701", "OrderCount": 1, "SalesRep": "Hilary Manning", "CurrentStatus": "Active", "ManualOverride": "Yes", "ActiveDate": "2010-08-03T15:33:34.517", "ContractDate": "2010-07-19T14:06:33.977", "VerbalDate": null, "CancelDate": null, "ExhibitorType": "P-Lead", "LeadExhibitors": "", "CoExhibitors": "Gelpeixe-Alimentos Congelados Sa,  Nigel - Congeladora Jose Nicolau LDA,  Grupo Miradouro - Friopesca,  Riberalves - Comercio e Industria de Produtos Alimentares SA,  Docapesca-Portos e Lotas SA,  Coelho & Dias S.A.,  GELPINHOS - Peixe congelado Lda,  Imporvenda- Produtos Alimentares Lda,  Rui Costa e Sousa & Irmao SA,  Pescaviva - Comercio e Industria Pescada SA,  Brasmar III - Comercio de Productos Alimentares, S.A.,  Filmar - Comercio de Productos Congelados, Lda,  Soguima - Comercio e Industria Alimentar, S.A,  Gialmar - Produtos Alimentares, S.A.,  Ilhapeixe - Sociedade de Peixe da Ilha, Lda,  Nutriplus - Produtos Alimentares, Lda", "ManualOverrideUser": "", "ManualOverrideDate": "2010-08-14T14:46:27.043", "LineItemID": "MTS000000082", "CreatedDate": "2010-05-12T00:00:00" }, { "AccountId": "AMJ6N0000122", "ShowName": "2010 - European Seafood Exposition", "AssignedSpace": 256.0, "OrderedSpace": 256.0, "AssignedBooths": "7-1701", "OrderCount": 1, "SalesRep": "Liz Luce", "CurrentStatus": "Active", "ManualOverride": "Yes", "ActiveDate": "2009-08-11T09:32:17.253", "ContractDate": "2009-08-04T08:17:26.367", "VerbalDate": null, "CancelDate": null, "ExhibitorType": "P-Lead", "LeadExhibitors": "", "CoExhibitors": "Gelpeixe-Alimentos Congelados Sa,  Nigel - Congeladora Jose Nicolau LDA,  Manuel Carvalho SA,  Geldouro-Productos Congelados SA,  Riberalves - Comercio e Industria de Produtos Alimentares SA,  Coelho & Dias S.A.,  GELPINHOS - Peixe congelado Lda,  Imporvenda- Produtos Alimentares Lda,  Rui Costa e Sousa & Irmao SA,  Pescaviva - Comercio e Industria Pescada SA,  Friopesca - Refrigera\u00e7ao de Averio, S.A.,  Filmar - Comercio de Productos Congelados, Lda,  Soguima - Comercio e Industria Alimentar, S.A,  Eurofrozen - Industria e Comercio de Productos Alimentares", "ManualOverrideUser": "", "ManualOverrideDate": "2010-08-20T14:55:11.483", "LineItemID": "MTS000000032", "CreatedDate": "2009-02-11T00:00:00" }, { "AccountId": "AMJ6N0000122", "ShowName": "2009 - European Seafood Exposition", "AssignedSpace": 256.0, "OrderedSpace": 256.0, "AssignedBooths": "7-1701", "OrderCount": 1, "SalesRep": "Liz Luce", "CurrentStatus": "Active", "ManualOverride": "Yes", "ActiveDate": "2008-07-02T10:06:02.383", "ContractDate": "2008-05-06T08:18:26.22", "VerbalDate": null, "CancelDate": null, "ExhibitorType": "P-Lead", "LeadExhibitors": "", "CoExhibitors": "Gelpeixe-Alimentos Congelados Sa,  Nigel - Congeladora Jose Nicolau LDA,  Pascoal & Filhos SA,  Manuel Carvalho SA,  Geldouro-Productos Congelados SA,  Riberalves - Comercio e Industria de Produtos Alimentares SA,  Coelho & Dias S.A.,  GELPINHOS - Peixe congelado Lda,  Imporvenda- Produtos Alimentares Lda,  Rui Costa e Sousa & Irmao SA,  Pescaviva - Comercio e Industria Pescada SA,  Brasmar III - Comercio de Productos Alimentares, S.A.,  Filmar - Comercio de Productos Congelados, Lda,  Soguima - Comercio e Industria Alimentar, S.A,  ACOPE - Associacao dos Comerciantes de Pescado,  Eurofrozen - Industria e Comercio de Productos Alimentares", "ManualOverrideUser": "", "ManualOverrideDate": "2010-08-20T14:55:11.483", "LineItemID": "QDBC1A0049OG", "CreatedDate": "2008-03-17T00:00:00" }, { "AccountId": "AMJ6N0000122", "ShowName": "2008 - European Seafood Exposition", "AssignedSpace": 256.0, "OrderedSpace": 256.0, "AssignedBooths": "7-1701", "OrderCount": 1, "SalesRep": "Liz Luce", "CurrentStatus": "Active", "ManualOverride": "Yes", "ActiveDate": "2007-07-23T13:06:02.727", "ContractDate": "2007-07-16T13:23:27.603", "VerbalDate": null, "CancelDate": null, "ExhibitorType": "P-Lead", "LeadExhibitors": "", "CoExhibitors": "Gelpeixe-Alimentos Congelados Sa,  Nigel - Congeladora Jose Nicolau LDA,  Pascoal & Filhos SA,  Manuel Carvalho SA,  Geldouro-Productos Congelados SA,  Riberalves Comercio e Industria de Produtos Alimentares SA,  Docapesca-Portos e Lotas SA,  Coelho & Dias S.A.,  Sabamar - Soc. Ind. de Peixe, Lda,  Salgadus - Industria e Comercio Produtos Alimentares, S.A,  GELPINHOS - Peixe congelado Lda,  Largopesca - Pesca e Comercializacao SA,  Imporvenda- Produtos Alimentares Lda,  Rui Costa e Sousa & Irmao SA,  Pescaviva - Comercio e Industria Pescada SA,  Friopesca - Refrigera\u00e7ao de Averio, S.A.,  Brasmar III - Comercio de Productos Alimentares, S.A.,  Filmar - Comercio de Productos Congelados, Lda,  Alvesmar, S.A.,  Cominfish - Industria e Comercio de Produtos Alimetares, Lda.,  Deltafish - Produtos Alimentares, S.A.,  Soguima - Comercio e Industria Alimentar, S.A", "ManualOverrideUser": "", "ManualOverrideDate": "2010-08-20T14:55:11.483", "LineItemID": "QDBC1A001MPW", "CreatedDate": "2007-04-02T00:00:00" }, { "AccountId": "AMJ6N0000122", "ShowName": "2007 - European Seafood Exposition", "AssignedSpace": 287.0, "OrderedSpace": 287.0, "AssignedBooths": "9-4159", "OrderCount": 1, "SalesRep": "Liz Luce", "CurrentStatus": "Active", "ManualOverride": "Yes", "ActiveDate": "2006-08-09T15:40:00", "ContractDate": "2006-07-28T00:00:00", "VerbalDate": null, "CancelDate": null, "ExhibitorType": "P-Lead", "LeadExhibitors": "", "CoExhibitors": "Gelpeixe-Alimentos Congelados Sa,  Nigel Congeladora Jose Nicolau LDA,  Ramirez & Ca Filhos Lda,  Conservas Portugal Norte Lda,  Pascoal & Filhos SA,  Manuel Carvalho SA,  Geldouro-Productos Congelados SA,  Riberalves Comercio e Industria de Produtos Alimentares SA,  Docapesca-Portos e Lotas SA,  Coelho & Dias,  Sabamar - Soc. Ind. de Peixe, Lda,  Salgadus, S.A.,  GELPINHOS - Peixe congelado Lda,  Largopesca - Pesca e Comercializacao SA,  IMPORVENDA - Produtos Alimentares Lda,  Rui Costa e Sousa & Irmao SA,  IBERTEJO - Comercio e Industria de Produtos Alimentares AS,  Pescaviva - Comercio e Industria Pescada SA,  Friopesca - Refrigera\u00e7ao de Averio, S.A.,  Brasmar III - Comercio de Productos Alimentares, S.A.,  Filmar", "ManualOverrideUser": "", "ManualOverrideDate": "2010-08-20T14:55:11.483", "LineItemID": "QEO1FA01SIJF", "CreatedDate": "2006-04-11T00:00:00" }, { "AccountId": "AMJ6N0000122", "ShowName": "2006 - European Seafood Exposition", "AssignedSpace": 287.0, "OrderedSpace": 287.0, "AssignedBooths": "9-4159", "OrderCount": 1, "SalesRep": "Liz Luce", "CurrentStatus": "Active", "ManualOverride": "Yes", "ActiveDate": "2005-08-16T14:24:00", "ContractDate": "2005-07-25T00:00:00", "VerbalDate": null, "CancelDate": null, "ExhibitorType": "Lead", "LeadExhibitors": "", "CoExhibitors": "Gelpeixe-Alimentos Congelados Sa,  Nigel Congeladora Jose Nicolau LDA,  Ramirez & Ca Filhos Lda,  Conservas Portugal Norte Lda,  Associacao Nacional dos Industriais de Conservas de Peixe,  Pascoal & Filhos SA,  Grupo Miradouro - Friopesca,  Manuel Carvalho SA,  SCAGEL-Sociedade de Alimentos Congelados Lda,  Geldouro-Productos Congelados SA,  Riberalves Comercio e Industria de Produtos Alimentares SA,  Docapesca-Portos e Lotas SA,  Coelho & Dias,  Sabamar - Soc. Ind. de Peixe, Lda,  Salgadus, S.A.,  Espogel,  Associacao dos Industriais do Bacalhau,  Sociedade Frigorifica de Peniche,  GELPINHOS - Peixe congelado Lda,  Grupo Gel - Comercio e Industria de Produtos Alimentares SA,  Largopesca - Pesca e Comercializacao SA,  IMPORVENDA - Produtos Alimentares Lda,  Rui Costa e Sousa & Irmao SA,  IBERTEJO - Comercio e Industria de Produtos Alimentares AS,  Pescaviva - Comercio e Industria Pescada SA,  Lotacor - Servico de Lotas dos Acores SA", "ManualOverrideUser": "", "ManualOverrideDate": "2010-08-20T14:55:11.483", "LineItemID": "QEO1FA0199M7", "CreatedDate": "2005-04-27T00:00:00" }, { "AccountId": "AMJ6N0000122", "ShowName": "2005 - European Seafood Exposition", "AssignedSpace": 328.0, "OrderedSpace": 328.0, "AssignedBooths": "9-4259", "OrderCount": 1, "SalesRep": "Nicole Dunbar", "CurrentStatus": "Active", "ManualOverride": "Yes", "ActiveDate": "2004-08-05T10:37:00", "ContractDate": "2004-05-11T00:00:00", "VerbalDate": null, "CancelDate": null, "ExhibitorType": "Lead", "LeadExhibitors": "", "CoExhibitors": "Gelpeixe-Alimentos Congelados Sa,  Nigel Congeladora Jose Nicolau LDA,  Ramirez & Ca Filhos Lda,  Conservas Portugal Norte Lda,  Associacao Nacional dos Industriais de Conservas de Peixe,  Pascoal & Filhos SA,  Grupo Miradouro - Friopesca,  Manuel Carvalho SA,  SCAGEL-Sociedade de Alimentos Congelados Lda,  Geldouro-Productos Congelados SA,  Docapesca-Portos e Lotas SA,  Coelho & Dias,  Sabamar - Soc. Ind. de Peixe, Lda,  Salgadus, S.A.,  Associacao dos Industriais do Bacalhau,  Sociedade Frigorifica de Peniche,  GELPINHOS - Peixe congelado Lda,  Grupo Gel - Comercio e Industria de Produtos Alimentares SA,  Largopesca - Pesca e Comercializacao SA,  IMPORVENDA - Produtos Alimentares Lda,  Rui Costa e Sousa & Irmao SA,  IBERTEJO - Comercio e Industria de Produtos Alimentares AS,  Pescaviva - Comercio e Industria Pescada SA,  Lotacor - Servico de Lotas dos Acores SA,  Conserveira do Sul, Lda.,  Virgilio C. Moreira, Lda.,  Deltagel,  Frigorificos das Carvalhas Lda", "ManualOverrideUser": "", "ManualOverrideDate": "2010-08-20T14:55:11.483", "LineItemID": "QEO1FA00PR6Y", "CreatedDate": "2004-04-05T16:41:40.3" }, { "AccountId": "AMJ6N0000122", "ShowName": "2004 - European Seafood Exposition", "AssignedSpace": 287.0, "OrderedSpace": 287.0, "AssignedBooths": "9-4141", "OrderCount": 1, "SalesRep": "Nicole Dunbar", "CurrentStatus": "Active", "ManualOverride": "Yes", "ActiveDate": "2003-06-30T11:24:00", "ContractDate": "2003-06-26T00:00:00", "VerbalDate": null, "CancelDate": null, "ExhibitorType": "Lead", "LeadExhibitors": "", "CoExhibitors": "Gelpeixe-Alimentos Congelados Sa,  Nigel Congeladora Jose Nicolau LDA,  Ramirez & Ca Filhos Lda,  Conservas Portugal Norte Lda,  Associacao Nacional dos Industriais de Conservas de Peixe,  Pascoal & Filhos SA,  Grupo Miradouro - Friopesca,  Manuel Carvalho SA,  SCAGEL-Sociedade de Alimentos Congelados Lda,  Geldouro-Productos Congelados SA,  Docapesca-Portos e Lotas SA,  Associacao dos Industriais do Bacalhau,  Sociedade Frigorifica de Peniche,  GELPINHOS - Peixe congelado Lda,  Grupo Gel - Comercio e Industria de Produtos Alimentares SA,  Largopesca - Pesca e Comercializacao SA,  IMPORVENDA - Produtos Alimentares Lda,  Rui Costa e Sousa & Irmao SA,  IBERTEJO - Comercio e Industria de Produtos Alimentares AS,  Pescaviva - Comercio e Industria Pescada SA,  Lotacor - Servico de Lotas dos Acores SA,  Frigorificos das Carvalhas Lda,  Patria/Imperconser- Imperial Conserveira SA", "ManualOverrideUser": "", "ManualOverrideDate": "2010-08-20T14:55:11.483", "LineItemID": "QEO1FA00BZC9", "CreatedDate": "2003-05-12T08:39:44.7" }, { "AccountId": "AMJ6N0000122", "ShowName": "2003 - European Seafood Exposition", "AssignedSpace": 0.0, "OrderedSpace": 0.0, "AssignedBooths": "9-4141", "OrderCount": 0, "SalesRep": "", "CurrentStatus": "Verbal", "ManualOverride": "No", "ActiveDate": null, "ContractDate": null, "VerbalDate": "2006-11-23T12:58:20.013", "CancelDate": null, "ExhibitorType": "Co-Exh", "LeadExhibitors": "DGPA - Direc\u00e7\u00e3o-Geal das Pescas e Aquicultura", "CoExhibitors": "", "ManualOverrideUser": "", "ManualOverrideDate": null, "LineItemID": "QEO1FA000608", "CreatedDate": "2002-03-21T11:13:00.443" }, { "AccountId": "AMJ6N0000122", "ShowName": "2002 - European Seafood Exhibition", "AssignedSpace": 0.0, "OrderedSpace": 0.0, "AssignedBooths": "11-2329", "OrderCount": 0, "SalesRep": "", "CurrentStatus": "Verbal", "ManualOverride": "No", "ActiveDate": null, "ContractDate": null, "VerbalDate": "2006-11-23T12:58:20.013", "CancelDate": null, "ExhibitorType": "Co-Exh", "LeadExhibitors": "DGPA - Direc\u00e7\u00e3o-Geal das Pescas e Aquicultura", "CoExhibitors": "", "ManualOverrideUser": "", "ManualOverrideDate": null, "LineItemID": "QEVOB0008158", "CreatedDate": "2001-10-25T00:00:00" }];
+
+            // Call the constructor.            
+            var myGrid = new Zenith.Grid('baseElement', testData);
+
+            // Now, set the rest of the public properties on the Grid object as necessary before
+            // calling the Build function.
+
+            myGrid.BindFields =
+                [
+                                    { 'FieldName': 'ShowName', 'Header': 'Show Name', 'Width': 50 },
+                                    { 'FieldName': 'AssignedSpace', 'Header': 'Assigned Space', 'Width': 50 },
+                                    { 'FieldName': 'OrderedSpace', 'Header': 'Ordered Space', 'Width': 50 },
+                                    { 'FieldName': 'AssignedBooths', 'Header': 'Assigned Booths', 'Width': 50 },
+                                    { 'FieldName': 'OrderCount', 'Header': 'Order Count', 'Width': 50 },
+                                    { 'FieldName': 'SalesRep', 'Header': 'Sales Rep', 'Width': 50 },
+                                    { 'FieldName': 'CurrentStatus', 'Header': 'Current Status', 'Width': 50 },
+                                    { 'FieldName': 'ManualOverride', 'Header': 'Override', 'Width': 50 },
+                                    { 'FieldName': 'ActiveDate', 'Header': 'Active Date', 'Width': 50, 'DataType': 'shortdate' },
+                                    { 'FieldName': 'ContractDate', 'Header': 'Contract Date', 'Width': 50, 'DataType': 'shortdate' },
+                                    { 'FieldName': 'VerbalDate', 'Header': 'Verbal Date', 'Width': 50, 'DataType': 'shortdate' },
+                                    { 'FieldName': 'CancelDate', 'Header': 'Cancel Date', 'Width': 50, 'DataType': 'shortdate' },
+                                    { 'FieldName': 'ExhibitorType', 'Header': 'Exhibitor Type', 'Width': 50 },
+                                    { 'FieldName': 'LeadExhibitors', 'Header': 'Lead Exhibitors', 'Width': 50 },
+                                    { 'FieldName': 'CoExhibitors', 'Header': 'Co Exhibitors', 'Width': 50 },
+                                    { 'FieldName': 'ManualOverrideUser', 'Header': 'Override User', 'Width': 50 },
+                                    { 'FieldName': 'ManualOverrideDate', 'Header': 'Override Date', 'Width': 50, 'DataType': 'shortdate' },
+                ];
+
+            myGrid.DataKeyName = 'Id';
+
+            //myGrid.PopUpControlId = 'testPopup';
+            //myGrid.PopUpPosition = 'right';
+            //myGrid.PopUpDirection = 'down';
+
+            myGrid.IsSelectable = true;
+            myGrid.IsSortable = true;
+            myGrid.DefaultSortField = 'ShowName';
+            myGrid.DefaultSortOrder = 'desc';
+            myGrid.Paging = true;
+            myGrid.RowsPerPage = 10;
+            myGrid.MaxPages = 10;
+            myGrid.Filters = true;
+
+            //myGrid.GroupedByKeyName = 'make';
+            //myGrid.GroupExpandImage = true;
+            myGrid.MaximumHeight = 800;
+            myGrid.OutputElementId = 'output1';
+            myGrid.SetMinWidth = true;
+            //myGrid.DetailField = 'note';
+
+            myGrid.addZenithEventListener(Zenith.ZenithEvent.EventType.Selected, function (row, rowValue, rowIndex) { console.log(arguments); });
+
+            myGrid.Build();
+
+            //myGrid.ParentElement.className = 'mGrid';
+        }
+        
+        function testGrid2()
+        {
+            // This commented out code is an example of getting a JSON object from a REST service and passing that in as the data source for the Grid.
+            /*jQuery.support.cors = true;
+            $.getJSON("http://localhost/TestService/TestService/Cars", {}, function (data)
+            {
+            myGrid = new Grid('myGrid', data);
+            });*/
+
+            // Use the following JSON object as the data source.
+            var testData = [
+                { "Id": 22, "make": "Honda", "model": "CR-V", "year": "1998", "preowned": true },
+                { "Id": 23, "make": "Toyota", "model": "Sienna", "year": "2005", "preowned": true },
+                { "Id": 24, "make": "Nissan", "model": "Sentra", "year": "2001", "preowned": true },
+                { "Id": 25, "make": "Toyota", "model": "Corolla", "year": "2011", "preowned": true },
+                { "Id": 26, "make": "Ford", "model": "Focus", "year": "2008", "preowned": true },
+                { "Id": 27, "make": "Dodge", "model": "Charger", "year": "2004", "preowned": true },
+                { "Id": 28, "make": "Ford", "model": "Fiesta", "year": "2013", "preowned": true },
+                { "Id": 29, "make": "Toyota", "model": "Camry", "year": "2008", "preowned": true },
+                { "Id": 30, "make": "Dodge", "model": "Durango", "year": "2004", "preowned": true }];
+
+            // Call the constructor.            
+            var myGrid = new Zenith.Grid('baseElement', testData);
+
+            // Now, set the rest of the public properties on the Grid object as necessary before
+            // calling the Build function.
+
+            myGrid.BindFields =
+                [
+                    { "FieldName": "make", "Header": "Make", "Width": 100 },
+                    { "FieldName": "model", "Header": "Model", "Width": 100 },
+                    { "FieldName": "year", "Header": "Year", "Width": 100 },
+                    { "FieldName": "preowned", "Header": "Pre-owned", "Width": 100, "DataType": "bool" }
+                ];
+            myGrid.DataKeyName = 'Id';
+
+            //myGrid.PopUpControlId = 'testPopup';
+            //myGrid.PopUpPosition = 'right';
+            //myGrid.PopUpDirection = 'down';
+
+            myGrid.IsSelectable = true;
+            myGrid.IsSortable = true;
+            //myGrid.GroupedByKeyName = 'make';
+            //myGrid.GroupExpandImage = true;
+            myGrid.MaximumHeight = 400;
+            myGrid.OutputElementId = 'output1';
+            myGrid.Filters = true;
+
+            //myGrid.addZenithEventListener(Zenith.ZenithEvent.EventType.Selected, function (row, rowValue, rowIndex) { alert('rowValue = ' + rowValue + ' : rowIndex = ' + rowIndex); });
+
+            myGrid.Build();
+
+            //myGrid.ParentElement.className = 'mGrid';
+        }
+    
+        function testGrid3()
+        {
+            jQuery.support.cors = true;
+            $.ajax({
+                type: "GET",
+                //url: "https://webservices.divbusiness.com/DataServices/EmailHistoryDataService.svc/vwEmailHistory()?$filter=ContactId%20eq%20%27CDBC1B008UES%27",
+                url: "http://localhost/DBC.DataServices.EmailHistory/EmailHistoryService/EmailHistory/CDBC1B008UES",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: { },
+                cache: true,
+                async: false,
+                success: function (data)
+                {
+                    if (!data)
+                        alert('An error occurred while getting information.');
+                    else
+                        loadGrid(data);
+                },
+                error: function (data)
+                {
+                    if (data.status != 200)
+                        alert('An error occurred while getting information.  Status = ' + data.status + '; statusText = ' + data.statusText);
+                }
+            });
+
+            /*jQuery.support.cors = true;
+            $.getJSON("https://webservices.divbusiness.com/DataServices/EmailHistoryDataService.svc/vwEmailHistory()?$filter=ContactId%20eq%20%27CDBC1B008UES%27", {}, function (data)
+            {
+                var myGrid = new Zenith.Grid('baseElement', data);
+
+                myGrid.BindFields =
+                    [
+                        { 'FieldName': 'Name', 'Header': 'Name', 'Width': 300 },
+                        { 'FieldName': 'SourceSystem', 'Header': 'Source System', 'Width': 100 },
+                        { 'FieldName': 'TrackingDate', 'Header': 'Tracking Date', 'Width': 100, 'DataType': 'shortdate' },
+                        { 'FieldName': 'TrackingType', 'Header': 'Tracking Type', 'Width': 75 },
+                        { 'FieldName': 'EmailAddress', 'Header': 'Email Address', 'Width': 200 },
+                        { 'FieldName': 'URL', 'Header': 'Link', 'Width': 200 }
+                    ];
+
+                myGrid.DataKeyName = 'Id';
+                myGrid.IsSelectable = true;
+                myGrid.IsSortable = true;
+                myGrid.DefaultSortField = 'TrackingDate';
+                myGrid.DefaultSortOrder = 'desc';
+                myGrid.Paging = true;
+                myGrid.RowsPerPage = 10;
+                myGrid.MaxPages = 10;
+                myGrid.MaximumHeight = 800;
+
+                myGrid.Build();
+            });*/
+        }
+
+        function loadGrid(data)
+        {
+            var myGrid = new Zenith.Grid('baseElement', data);
+
+            myGrid.BindFields =
+                [
+                    { 'FieldName': 'Name', 'Header': 'Name', 'Width': 300 },
+                    { 'FieldName': 'SourceSystem', 'Header': 'Source System', 'Width': 100 },
+                    { 'FieldName': 'TrackingDate', 'Header': 'Tracking Date', 'Width': 100, 'DataType': 'shortdate' },
+                    { 'FieldName': 'TrackingType', 'Header': 'Tracking Type', 'Width': 75 },
+                    { 'FieldName': 'EmailAddress', 'Header': 'Email Address', 'Width': 200 },
+                    { 'FieldName': 'URL', 'Header': 'Link', 'Width': 200 }
+                ];
+
+            myGrid.DataKeyName = 'Id';
+            myGrid.IsSelectable = true;
+            myGrid.IsSortable = true;
+            myGrid.DefaultSortField = 'TrackingDate';
+            myGrid.DefaultSortOrder = 'desc';
+            myGrid.Paging = true;
+            myGrid.RowsPerPage = 10;
+            myGrid.MaxPages = 10;
+            myGrid.MaximumHeight = 800;
+
+            myGrid.Build();
+        }
+
+        function getDetails(data)
+        {
+            if (event.status) {
+                var markup = result.value[0] ? result.value[0].Body : '';
+                var elem = document.getElementById('{!detailsElementId}');
+                elem.innerHTML = markup;
+            }
+            else if (event.type === 'exception'){
+                alert('Error: ' + event.message + '; where: ' + event.where);
+            }
+            else {
+                alert(event.message);                   
+            }
+        }
+
+        function test_onClick()
+        {
+            testListBox();
+        }
+
+    </script>
+</head>
+    
+<body onload="OnLoad();">
+
+    <br />
+
+    <div >
+        <div id="baseElement"></div>
+
+        <br />
+        <br />
+
+        <span id="output1"></span>
+        <input id="output2" type="hidden" />
+
+        <h1></h1>
+        <h1></h1>
+ 
+        <input id="test" type="button" value="Test" onclick="test_onClick();" />
+
+        <input id="testPopup" type="submit" value="Show" />
+
+        <div id="baseElement2"></div>
+
+        <input type="text" size="5" style="" />
+    </div>
+
+</body>
+</html>

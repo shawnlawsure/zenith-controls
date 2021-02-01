@@ -1,0 +1,70 @@
+﻿.ZenithCalendarTable
+{
+	border-width: 1px;
+	border-style: solid;
+	border-color: black;
+	background-color: aquamarine;
+}
+
+.ZenithCalendarTable td
+{
+	width: 20px;
+	height: 15px;
+}
+
+.ZenithCalendar_TopDate
+{
+    font-size: .8em;
+	font-weight: bold;
+}
+
+.ZenithCalendar_ArrowLeft 
+{
+	width: 0; 
+	height: 0; 
+	border-top: 5px solid transparent;
+	border-bottom: 5px solid transparent; 	
+	border-right: 5px solid blue; 
+}
+
+.ZenithCalendar_ArrowRight 
+{
+	width: 0; 
+	height: 0; 
+	border-top: 5px solid transparent;
+	border-bottom: 5px solid transparent;
+	border-left: 5px solid blue;
+}
+
+.ZenithCalendar_DayOfWeek
+{
+    font-size: .8em;
+	font-weight: bold;
+    text-decoration: underline;
+}
+
+.ZenithCalendar_CalendarDay
+{
+    font-size: .8em;
+}
+
+.ZenithCalendar_TodaysDate
+{
+    font-size: .8em;
+	font-weight: bold;
+}
+
+.ZenithCalendar_DateRows
+{
+    height: 30px;
+}
+
+.ZenithCalendar_CalendarMonths
+{
+    font-size: .8em;
+}
+
+.ZenithCalendar_CalendarYears
+{
+    font-size: .8em;
+}
